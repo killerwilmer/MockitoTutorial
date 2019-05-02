@@ -20,4 +20,14 @@ public class StringHelperTest {
 		assertEquals("CD", stringHelper.truncateAInFirst2Positions("ACD"));
 	}
 
+	@Test
+	public void testTruncateAInFirst2PositionsAisNotPresent() {
+		assertEquals("CDEF", stringHelper.truncateAInFirst2Positions("CDEF"));
+	}
+
+	@Test
+	public void testTruncateAInFirst2PositionsAinEnd2Position() {
+		assertEquals("CDAA", stringHelper.truncateAInFirst2Positions("CDAA"));
+	}
+
 }
