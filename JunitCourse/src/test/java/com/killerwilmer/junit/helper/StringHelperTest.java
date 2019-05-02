@@ -6,13 +6,18 @@ import org.junit.Test;
 
 public class StringHelperTest {
 
+	// AACD=>CD - ACD=>CD - CDEF=>CDEF - CDAA=>CDAA
+	StringHelper stringHelper = new StringHelper();
+
 	@Test
-	public void test() {
-		// AACD=>CD - ACD=>CD - CDEF=>CDEF - CDAA=>CDAA
-		StringHelper stringHelper = new StringHelper();
+	public void testTruncateAInFirst2PositionsAinFirst2Positions() {
 		assertEquals("CD", stringHelper.truncateAInFirst2Positions("AACD"));
-		assertEquals("CD", stringHelper.truncateAInFirst2Positions("ACD"));
 		// expected, actual
+	}
+
+	@Test
+	public void testTruncateAInFirst2PositionsAinFirstPosition() {
+		assertEquals("CD", stringHelper.truncateAInFirst2Positions("ACD"));
 	}
 
 }
