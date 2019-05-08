@@ -3,6 +3,7 @@ package com.killerwilmer.business;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -74,15 +75,15 @@ public class TodoBusinessImplMockBDDTest {
 		todoBusinessImpl.deleteTodosNotRelatedToSpring("Dummy");
 		
 		// Then
-		verify(todoServiceMock).deleteTodo("Learn to Dance");
+		then(todoServiceMock).should().deleteTodo("Learn to Dance");
 		
-		verify(todoServiceMock, never()).deleteTodo("Learn Spring MVC");
+		then(todoServiceMock).should(never()).deleteTodo("Learn Spring MVC");
 		
-		verify(todoServiceMock, never()).deleteTodo("Learn Spring Boot");
+		then(todoServiceMock).should(never()).deleteTodo("Learn Spring Boot");
 		
-		verify(todoServiceMock, times(1)).deleteTodo("Learn to Dance");
+		then(todoServiceMock).should(times(1)).deleteTodo("Learn to Dance");
 		
-		verify(todoServiceMock, atLeast(1)).deleteTodo("Learn to Dance");
+		then(todoServiceMock).should(atLeast(1)).deleteTodo("Learn to Dance");
 
 	}
 
