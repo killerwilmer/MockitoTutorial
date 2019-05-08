@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import com.killerwilmer.data.api.TodoService;
 import com.killerwilmer.data.api.TodoServiceStub;
@@ -84,6 +85,60 @@ public class TodoBusinessImplMockBDDTest {
 		then(todoServiceMock).should(times(1)).deleteTodo("Learn to Dance");
 		
 		then(todoServiceMock).should(atLeast(1)).deleteTodo("Learn to Dance");
+
+	}
+	
+	@Test
+	public void testDeleteTodosNotRelatedToSpring_usingBDD_argumentCapture() {
+		
+		// Declare argument captor
+		ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
+		// Define argument captor on specific method call
+		// Capture the argument
+		
+		// Given
+		TodoService todoServiceMock = mock(TodoService.class);
+
+		List<String> todos = Arrays.asList("Learn Spring MVC", "Learn Spring Boot", "Learn to Dance");
+
+		given(todoServiceMock.retrieveTodos("Dummy")).willReturn(todos);
+
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+		
+		// When
+		todoBusinessImpl.deleteTodosNotRelatedToSpring("Dummy");
+		
+		// Then
+		then(todoServiceMock).should().deleteTodo(stringArgumentCaptor.capture());
+		
+		assertThat(stringArgumentCaptor.getValue(), is("Learn to Dance"));
+
+	}
+	
+	@Test
+	public void testDeleteTodosNotRelatedToSpring_usingBDD_argumentCaptureMultipleTimes() {
+		
+		// Declare argument captor
+		ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
+		// Define argument captor on specific method call
+		// Capture the argument
+		
+		// Given
+		TodoService todoServiceMock = mock(TodoService.class);
+
+		List<String> todos = Arrays.asList("Learn to Rock and Roll", "Learn Spring Boot", "Learn to Dance");
+
+		given(todoServiceMock.retrieveTodos("Dummy")).willReturn(todos);
+
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+		
+		// When
+		todoBusinessImpl.deleteTodosNotRelatedToSpring("Dummy");
+		
+		// Then
+		then(todoServiceMock).should(times(2)).deleteTodo(stringArgumentCaptor.capture());
+		
+		assertThat(stringArgumentCaptor.getAllValues().size(), is(2));
 
 	}
 
