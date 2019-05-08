@@ -15,7 +15,10 @@ public class TodoServiceStub implements TodoService {
 				"Learn to Dance");
 		
 	}
-	
-	
 
+	public void deleteTodo(String todo) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

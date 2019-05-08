@@ -3,7 +3,11 @@ package com.killerwilmer.business;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.anyInt;
 
@@ -52,6 +56,34 @@ public class TodoBusinessImplMockBDDTest {
 		
 		// Then
 		assertThat(firstElement, is("Hello"));
+	}
+	
+	@Test
+	public void testDeleteTodosNotRelatedToSpring_usingBDD() {
+		
+		// Given
+		TodoService todoServiceMock = mock(TodoService.class);
+
+		List<String> todos = Arrays.asList("Learn Spring MVC", "Learn Spring Boot", "Learn to Dance");
+
+		given(todoServiceMock.retrieveTodos("Dummy")).willReturn(todos);
+
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+		
+		// When
+		todoBusinessImpl.deleteTodosNotRelatedToSpring("Dummy");
+		
+		// Then
+		verify(todoServiceMock).deleteTodo("Learn to Dance");
+		
+		verify(todoServiceMock, never()).deleteTodo("Learn Spring MVC");
+		
+		verify(todoServiceMock, never()).deleteTodo("Learn Spring Boot");
+		
+		verify(todoServiceMock, times(1)).deleteTodo("Learn to Dance");
+		
+		verify(todoServiceMock, atLeast(1)).deleteTodo("Learn to Dance");
+
 	}
 
 }
